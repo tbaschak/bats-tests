@@ -54,3 +54,25 @@
   [[ $output =~ "200 OK" ]]
 }
 
+@test "Ciscodude bgplogger: https" {
+  run curl -i https://bgplogger.ciscodude.net/
+  [[ $output =~ "200 OK" ]]
+}
+
+@test "Ciscodude ipam: http root" {
+  run curl -i http://ipam.ciscodude.net/
+  [[ $output =~ "301 Moved" ]]
+  [[ $output =~ "Location: https://ipam.ciscodude.net/" ]]
+}
+
+@test "Ciscodude ipam: https root" {
+  run curl -i https://ipam.ciscodude.net/
+  [[ $output =~ "301 Moved" ]]
+  [[ $output =~ "Location: https://ipam.ciscodude.net/auth/login" ]]
+}
+
+@test "Ciscodude ipam: https login" {
+  run curl -i https://ipam.ciscodude.net/auth/login
+  [[ $output =~ "200 OK" ]]
+}
+
