@@ -1,78 +1,57 @@
 #!/usr/bin/env bats
 
-@test "Ciscodude: root domain" {
-  run curl -i http://ciscodude.net/
+@test "Ciscodude: root domain wpg" {
+  run curl -i --header 'Host: ciscodude.net' http://wpg.ciscodude.net/
   [[ $output =~ "301 Moved" ]]
   [[ $output =~ "Location: https://ciscodude.net/" ]]
 }
 
-@test "Ciscodude: www" {
-  run curl -i http://www.ciscodude.net/
+@test "Ciscodude: root domain sfo" {
+  run curl -i --header 'Host: ciscodude.net' http://sfo.ciscodude.net/
   [[ $output =~ "301 Moved" ]]
   [[ $output =~ "Location: https://ciscodude.net/" ]]
 }
 
-@test "Ciscodude: blog" {
-  run curl -i http://blog.ciscodude.net/
+@test "Ciscodude: www wpg" {
+  run curl -i --header 'Host: www.ciscodude.net' http://wpg.ciscodude.net/
   [[ $output =~ "301 Moved" ]]
   [[ $output =~ "Location: https://ciscodude.net/" ]]
 }
 
-@test "Ciscodude: https" {
-  run curl https://ciscodude.net/
+@test "Ciscodude: www sfo" {
+  run curl -i --header 'Host: www.ciscodude.net' http://sfo.ciscodude.net/
+  [[ $output =~ "301 Moved" ]]
+  [[ $output =~ "Location: https://ciscodude.net/" ]]
+}
+
+@test "Ciscodude: blog wpg" {
+  run curl -i --header 'Host: blog.ciscodude.net' http://wpg.ciscodude.net/
+  [[ $output =~ "301 Moved" ]]
+  [[ $output =~ "Location: https://ciscodude.net/" ]]
+}
+
+@test "Ciscodude: blog sfo" {
+  run curl -i --header 'Host: blog.ciscodude.net' http://sfo.ciscodude.net/
+  [[ $output =~ "301 Moved" ]]
+  [[ $output =~ "Location: https://ciscodude.net/" ]]
+}
+
+@test "Ciscodude: https wpg" {
+  run curl --header 'Host: ciscodude.net' https://wpg.ciscodude.net/
   [[ $output =~ "CiscoDude.net" ]]
 }
 
-@test "Ciscodude: https ping" {
-  run curl https://ciscodude.net/ping/
+@test "Ciscodude: https sfo" {
+  run curl --header 'Host: ciscodude.net' https://sfo.ciscodude.net/
+  [[ $output =~ "CiscoDude.net" ]]
+}
+
+@test "Ciscodude: https ping wpg" {
+  run curl --header 'Host: ciscodude.net' https://wpg.ciscodude.net/ping/
   [[ $output =~ "OK" ]]
 }
 
-@test "Ciscodude stuff: https" {
-  run curl https://stuff.ciscodude.net/
-  [[ $output =~ "Index of /" ]]
+@test "Ciscodude: https ping sfo" {
+  run curl --header 'Host: ciscodude.net' https://sfo.ciscodude.net/ping/
+  [[ $output =~ "OK" ]]
 }
-
-@test "Ciscodude mx0: http" {
-  run curl -i http://mx0.ciscodude.net/
-  [[ $output =~ "200 OK" ]]
-}
-
-@test "Ciscodude mx0: https" {
-  run curl -i https://mx0.ciscodude.net/
-  [[ $output =~ "200 OK" ]]
-}
-
-@test "Ciscodude mx0: http mail" {
-  run curl -i http://mx0.ciscodude.net/mail/
-  [[ $output =~ "301 Moved" ]]
-  [[ $output =~ "Location: https://mx0.ciscodude.net/mail/" ]]
-}
-
-@test "Ciscodude mx0: https mail" {
-  run curl -i https://mx0.ciscodude.net/mail/
-  [[ $output =~ "200 OK" ]]
-}
-
-@test "Ciscodude bgplogger: https" {
-  run curl -i https://bgplogger.ciscodude.net/
-  [[ $output =~ "200 OK" ]]
-}
-
-@test "Ciscodude ipam: http root" {
-  run curl -i http://ipam.ciscodude.net/
-  [[ $output =~ "301 Moved" ]]
-  [[ $output =~ "Location: https://ipam.ciscodude.net/" ]]
-}
-
-@test "Ciscodude ipam: https root" {
-  run curl -i https://ipam.ciscodude.net/
-  [[ $output =~ "301 Moved" ]]
-  [[ $output =~ "Location: https://ipam.ciscodude.net/auth/login" ]]
-}
-
-@test "Ciscodude ipam: https login" {
-  run curl -i https://ipam.ciscodude.net/auth/login
-  [[ $output =~ "200 OK" ]]
-}
-
